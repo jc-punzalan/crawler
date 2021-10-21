@@ -1,0 +1,50 @@
+<?php 
+    echo "<h1>Web Crawler for Agency Analytics</h1>";
+
+    if ($success == false) {
+?>
+        <div class="alert alert-danger">
+            <?php echo $error; ?>
+        </div>
+<?php
+    } else {
+        echo "<p>Number of Pages Crawled: " . $numPagesCrawled . "</p>";
+        echo "<p>Number of Unique Images: " . $numUniqueImages . "</p>";
+        echo "<p>Number of Unique Internal Links: " . $numUniqueInternalLinks . "</p>";
+        echo "<p>Number of of Unique External Links: " . $numUniqueExternalLinks . "</p>";
+        echo "<p>Average Page Load : " . $avgPageLoadTimes . "s</p>";
+        echo "<p>Average Word Count : " . $avgWordCount . "</p>";
+        echo "<p>Average Title Length: " . $avgTitleLength . "</p>";
+
+        if (sizeof($pagesCrawled) > 0) {
+        ?>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th>#</th>
+                    <th>Page</th>
+                    <th>Status Code</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td colspan="3">Total Pages Crawled: <?php echo sizeof($pagesCrawled); ?></td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <?php foreach ($pagesCrawled as $key => $page) { ?>
+                    <tr>
+                        <td><?php echo $key; ?></td>
+                        <td><?php echo $page['page']; ?></td>
+                        <td><?php echo $page['statusCode']; ?></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+            <?php
+        }
+    }
+
+    echo $this->tag->form('/crawler');
+    echo $this->tag->submitButton(["Crawl Again", 'class' => 'btn btn-primary']);
+    echo $this->tag->endForm();
